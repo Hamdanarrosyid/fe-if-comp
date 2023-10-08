@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 const ActivityCard = ({ id, title, created_at, onDeleteActivity }) => {
     const navigate = useNavigate()
     return (
-        <Card>
+        <Card data-cy="activity-item">
             <CardHeader cursor='pointer' onClick={() => navigate(`/activity/${id ?? 'untitled'}`)}>
                 <Heading data-cy="activity-item-title" size='md'> {title}</Heading>
             </CardHeader>

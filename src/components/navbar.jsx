@@ -19,7 +19,7 @@ export default function Nav() {
             <Container maxW={'6xl'}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <Box cursor='pointer' onClick={()=>navigate('/')}>
-                        <Text fontWeight={'bold'} fontSize={24} style={{textTransform: 'uppercase'}} data-cy="header-title">To Do List App</Text>
+                        <Text fontWeight={'bold'} fontSize={24} data-cy="header-title">TO DO LIST APP</Text>
                     </Box>
 
                     <Flex alignItems={'center'}>

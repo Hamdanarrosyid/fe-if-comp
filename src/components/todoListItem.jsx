@@ -31,7 +31,7 @@ const TodoListItem = ({ data, onToggleTodo, onDeleteTodo }) => {
     }, [toast, titleTodo, data.id])
 
     return (
-        <ListItem bg={useColorModeValue('white','gray.600')} rounded='lg' p={5} justifyContent='space-between' display='flex' alignItems='center'>
+        <ListItem data-cy="todo-item" bg={useColorModeValue('white','gray.600')} rounded='lg' p={5} justifyContent='space-between' display='flex' alignItems='center'>
             <Flex alignItems='center'>
                 <Box mr={4}>
                     <Checkbox data-cy="todo-item-checkbox" size='lg' isChecked={data.is_active == 1 ? false : true} onChange={onToggleTodo} />
