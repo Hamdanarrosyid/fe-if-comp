@@ -112,8 +112,8 @@ function App() {
             ) : (
               <SimpleGrid gap={5} spacing={4} my={5} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
                 {
-                  dataState.map((value,index) => (
-                    <ActivityCard data-cy={`activity-item-${index}`} key={value.id} onDeleteActivity={() => handleDeleteActivity(value.id)} title={value.title} created_at={new Date(value.created_at).toLocaleDateString()} id={value.id} />
+                  dataState.map((value) => (
+                    <ActivityCard data-cy={`activity-item`} key={value.id} onDeleteActivity={() => handleDeleteActivity(value.id)} title={value.title} created_at={new Date(value.created_at).toLocaleDateString()} id={value.id} />
                   ))
                 }
               </SimpleGrid>

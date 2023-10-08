@@ -161,8 +161,8 @@ function Activity() {
                                     ) : (
                                         <List spacing={4} mt={8}>
                                             {
-                                                Object.keys(dataState).map((key,index) => (
-                                                    <TodoListItem data-cy={`todo-item-${index}`} onDeleteTodo={()=>handleDelete(key)} onToggleTodo={() => handleToggleTodo(key, dataState[key].is_active)} key={key} data={dataState[key]} />
+                                                Object.keys(dataState).map((key) => (
+                                                    <TodoListItem data-cy={`todo-item`} onDeleteTodo={()=>handleDelete(key)} onToggleTodo={() => handleToggleTodo(key, dataState[key].is_active)} key={key} data={dataState[key]} />
                                                 ))
                                             }
                                         </List>

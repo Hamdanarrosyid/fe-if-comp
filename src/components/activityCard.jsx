@@ -15,7 +15,7 @@ const ActivityCard = ({ id, title, created_at, onDeleteActivity }) => {
             </CardBody>
             <CardFooter>
                 <Flex width='full' alignItems={'center'} justifyContent='space-between'>
-                    <Text data-cy="activity-item-data">{created_at}</Text>
+                    <Text data-cy="activity-item-date">{created_at}</Text>
                     <IconButton data-cy="activity-item-delete-button" onClick={onDeleteActivity} icon={<DeleteIcon />} variant='ghost' />
                 </Flex>
             </CardFooter>

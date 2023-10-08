@@ -47,9 +47,9 @@ const ModalAdd = ({ isOpen, onClose, activity_group_id, onAddedData }) => {
     }, [toast, activity_group_id, inputName, inputPriority, onClose, onAddedData])
 
     return (
-        <Modal data-cy="modal-add" isOpen={isOpen} onClose={onClose} isCentered>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent mx={{ base: 5, md: 0 }}>
+            <ModalContent mx={{ base: 5, md: 0 }} data-cy="modal-add">
                 <ModalHeader data-cy="modal-add-title">Tambah List Item</ModalHeader>
                 <ModalCloseButton />
                 <Divider />
@@ -61,8 +61,8 @@ const ModalAdd = ({ isOpen, onClose, activity_group_id, onAddedData }) => {
                         </>
                         <>
                             <Text data-cy="modal-add-priority-title" textTransform={'uppercase'} fontWeight='bold' fontSize={'sm'}>Priority</Text>
-                            <Menu data-cy="modal-add-priority-dropdown">
-                                <MenuButton bgColor='transparent' borderWidth='1px' textTransform='capitalize' textAlign='left' as={Button} rightIcon={<ChevronDownIcon />} leftIcon={inputPriority ? <PriorityIcon priority={inputPriority}/> : null}>
+                            <Menu>
+                                <MenuButton data-cy="modal-add-priority-dropdown" bgColor='transparent' borderWidth='1px' textTransform='capitalize' textAlign='left' as={Button} rightIcon={<ChevronDownIcon />} leftIcon={inputPriority ? <PriorityIcon priority={inputPriority}/> : null}>
                                     {inputPriority?.toLowerCase().replace('_', ' ') ?? "Pilih Priority"}
                                 </MenuButton>
                                 <MenuList>
