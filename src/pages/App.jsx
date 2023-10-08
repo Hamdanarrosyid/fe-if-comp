@@ -7,7 +7,7 @@ import ActivityCard from '../components/activityCard'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from '../utils/config'
-import ActivitySkeleton from '../components/activitySkeleton'
+// import ActivitySkeleton from '../components/activitySkeleton'
 
 function App() {
   const [dataState, setDataState] = useState(null)
@@ -101,9 +101,7 @@ function App() {
 
           {/* Main Activity */}
           {
-            isLoading ? (
-              <ActivitySkeleton />
-            ) : !dataState ? (
+            !dataState ? (
               <Center>
                 <Box maxH={600} maxW={400} my={20} data-cy="activity-empty-state">
                   <img alt='hero-image' src={activityImage} width={'100%'} />
