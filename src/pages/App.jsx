@@ -83,6 +83,7 @@ function App() {
 
   const handleDeleteClick = (id) => {
     setSelectedData(id)
+    onOpen()
   }
 
   useEffect(() => {
