@@ -1,4 +1,4 @@
-import { Box, Button, Center, Container, Flex, IconButton, Spacer, Spinner, useDisclosure, useToast, List, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, Center, Container, Flex, IconButton, Spacer, Spinner, useDisclosure, useToast, List, useColorModeValue, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
 import Nav from '../components/navbar'
 import { ChevronLeftIcon, PlusSquareIcon } from '@chakra-ui/icons'
 import { useCallback, useEffect, useState } from 'react'
@@ -9,6 +9,8 @@ import axios from 'axios'
 import { BASE_URL } from '../utils/config'
 import TodoListItem from '../components/todoListItem'
 import CustomEditableInput from '../components/customEditableInput'
+import { BiSortAlt2, BiSortDown, BiSortUp, BiSortAZ, BiSortZA, BiCheck } from 'react-icons/bi'
+import { aToZ, noTComplete, zToA } from '../utils/sort'
 
 function Activity() {
     const [dataState, setDataState] = useState(null)
@@ -18,15 +20,24 @@ function Activity() {
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const toast = useToast()
+    const [selectedSord, setSelectedSort] = useState('terbaru')
 
-    const fetchData = useCallback(async () => {
+    const fetchData = useCallback(async (refresh, reverse) => {
         try {
             const data = await axios.get(`${BASE_URL}/activity-groups/${id}`)
-            const tempObj = {}
-            data?.data?.todo_items.map(val => {
-                tempObj[val.id] = val
+            setDataState(() => {
+                if (selectedSord == 'terlama' && !refresh || reverse) {
+                    return data?.data?.todo_items.reverse()
+                } else if (selectedSord == 'a-z' && !refresh) {
+                    return aToZ(data?.data?.todo_items)
+                } else if (selectedSord == 'z-a' && !refresh) {
+                    return zToA(data?.data?.todo_items)
+                } else if (selectedSord == 'belum-selesai' && !refresh) {
+                    return noTComplete(data?.data?.todo_items)
+                } else {
+                    return data?.data?.todo_items
+                }
             })
-            setDataState(tempObj)
             setDataTitle(data.data.title)
         } catch (error) {
             toast({
@@ -41,7 +52,7 @@ function Activity() {
         } finally {
             setIsLoading(false)
         }
-    }, [toast, id])
+    }, [toast, id, selectedSord])
 
     const handleSubmitTitle = useCallback(async () => {
         try {
@@ -124,7 +135,7 @@ function Activity() {
         if (!dataState && isLoading) {
             fetchData()
         }
-    }, [dataState, isLoading, fetchData])
+    }, [dataState, isLoading, fetchData, selectedSord])
 
     return (
         <>
@@ -141,9 +152,52 @@ function Activity() {
                                 <Flex>
                                     <Flex alignItems={'center'}>
                                         <IconButton data-cy="todo-back-button" variant='ghost' onClick={() => navigate(-1)} aria-label='back-button' icon={<ChevronLeftIcon fontSize={24} fontWeight={'bold'} />} />
-                                        <CustomEditableInput dataCy={{title: 'todo-title', editButton: 'todo-edit-button'}} defaultValue={dataTitle} onChange={(v) => setDataTitle(v)} onsubmit={handleSubmitTitle} />
+                                        <CustomEditableInput dataCy={{ title: 'todo-title', editButton: 'todo-title-edit-button' }} defaultValue={dataTitle} onChange={(v) => setDataTitle(v)} onsubmit={handleSubmitTitle} />
                                     </Flex>
                                     <Spacer />
+                                    <Menu>
+                                        <MenuButton
+                                            data-cy='todo-sort-button'
+                                            as={IconButton}
+                                            aria-label='Sort'
+                                            icon={<BiSortAlt2 />}
+                                            variant='outline'
+                                            rounded='full'
+                                            mr={4}
+                                        />
+                                        <MenuList>
+                                            <MenuItem data-cy="sort-selection" icon={<BiSortDown />} onClick={() => {
+                                                fetchData(true)
+                                                setSelectedSort('terbaru')
+                                            }} command={selectedSord == 'terbaru' && <BiCheck />}>
+                                                Terbaru
+                                            </MenuItem>
+                                            <MenuItem data-cy="sort-selection" icon={<BiSortUp />} onClick={() => {
+                                                fetchData(true, true)
+                                                setSelectedSort('terlama')
+                                            }} command={selectedSord == 'terlama' && <BiCheck />}>
+                                                Terlama
+                                            </MenuItem>
+                                            <MenuItem data-cy="sort-selection" icon={<BiSortAZ />} onClick={() => {
+                                                setDataState((prev) => aToZ(prev))
+                                                setSelectedSort('a-z')
+                                            }} command={selectedSord == 'a-z' && <BiCheck />}>
+                                                A-Z
+                                            </MenuItem>
+                                            <MenuItem data-cy="sort-selection" icon={<BiSortZA />} onClick={() => {
+                                                setDataState((prev) => zToA(prev))
+                                                setSelectedSort('z-a')
+                                            }} command={selectedSord == 'z-a' && <BiCheck />}>
+                                                Z-A
+                                            </MenuItem>
+                                            <MenuItem data-cy="sort-selection" icon={<BiSortAlt2 />} onClick={() => {
+                                                setDataState((prev) => noTComplete(prev))
+                                                setSelectedSort('belum-selesai')
+                                            }} command={selectedSord == 'belum-selesai' && <BiCheck />}>
+                                                Belum Selesai
+                                            </MenuItem>
+                                        </MenuList>
+                                    </Menu>
                                     <Button data-cy="todo-add-button" leftIcon={<PlusSquareIcon />} onClick={onOpen} colorScheme='blue' variant='solid'>
                                         Tambah
                                     </Button>
@@ -152,7 +206,7 @@ function Activity() {
                                 {/* List */}
 
                                 {
-                                    Object.keys(dataState)?.length == 0 ? (
+                                    dataState.length == 0 ? (
                                         <Center>
                                             <Box maxH={600} maxW={400} my={20} data-cy="todo-empty-state">
                                                 <img alt='hero-image' src={heroImage} width={'100%'} />
@@ -161,8 +215,8 @@ function Activity() {
                                     ) : (
                                         <List spacing={4} mt={8}>
                                             {
-                                                Object.keys(dataState).map((key) => (
-                                                    <TodoListItem onDeleteTodo={()=>handleDelete(key)} onToggleTodo={() => handleToggleTodo(key, dataState[key].is_active)} key={key} data={dataState[key]} />
+                                                dataState.map((val) => (
+                                                    <TodoListItem onDeleteTodo={() => handleDelete(val.id)} onToggleTodo={() => handleToggleTodo(val.id, val.is_active)} key={val.id} data={val} />
                                                 ))
                                             }
                                         </List>
