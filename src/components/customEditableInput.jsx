@@ -18,7 +18,9 @@ const CustomEditableInput = ({ defaultValue, onChange, onSubmit, dataCy }) => {
             </ButtonGroup>
         ) : (
             <Flex justifyContent='center'>
-                <IconButton variant='ghost' size='sm' icon={<EditIcon/>} {...getEditButtonProps()} />
+                <EditablePreview data-cy={dataCy.title} {...getEditButtonProps()}/>
+
+                <IconButton variant='ghost' size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
             </Flex>
         )
     }
@@ -35,10 +37,9 @@ const CustomEditableInput = ({ defaultValue, onChange, onSubmit, dataCy }) => {
             justifyContent='center'
             alignItems='center'
         >
-            <EditablePreview data-cy={dataCy.title} />
             <Input as={EditableInput} />
             {/* <Bo?x ml={2}> */}
-            <EditableControls data-cy={dataCy.editButton}/>
+            <EditableControls data-cy={dataCy.editButton} />
             {/* </Box> */}
 
         </Editable>
@@ -50,7 +51,7 @@ CustomEditableInput.propTypes = {
     onChange: PropTypes.func,
     onSubmit: PropTypes.func,
     dataCy: PropTypes.shape({
-        title : PropTypes.string,
+        title: PropTypes.string,
         editButton: PropTypes.string
     })
 }

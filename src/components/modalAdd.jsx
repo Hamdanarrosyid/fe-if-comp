@@ -10,7 +10,7 @@ import priorityTodoList from "../utils/priorityTodoList";
 
 const ModalAdd = ({ isOpen, onClose, activity_group_id, onAddedData }) => {
     const [inputName, setInputName] = useState('')
-    const [inputPriority, setInputPriority] = useState(null)
+    const [inputPriority, setInputPriority] = useState(priorityTodoList.VERY_HIGH)
     const toast = useToast()
 
     const handleSubmit = useCallback(async () => {
@@ -42,7 +42,7 @@ const ModalAdd = ({ isOpen, onClose, activity_group_id, onAddedData }) => {
         } finally {
             onClose()
             setInputName('')
-            setInputPriority(null)
+            setInputPriority(priorityTodoList.VERY_HIGH)
         }
     }, [toast, activity_group_id, inputName, inputPriority, onClose, onAddedData])
 
@@ -68,7 +68,7 @@ const ModalAdd = ({ isOpen, onClose, activity_group_id, onAddedData }) => {
                                 <MenuList>
                                     {
                                         Object.keys(priorityListItem).map(key => (
-                                            <MenuItem data-cy={`modal-add-priority-${priorityListItem[key].toLowerCase().replace('_', '-')}`} textTransform='capitalize' icon={<PriorityIcon priority={key} />} value={priorityListItem[key]} key={key} onClick={(e) => setInputPriority(e.target.value)}>
+                                            <MenuItem data-cy="modal-add-priority-item" textTransform='capitalize' icon={<PriorityIcon priority={key} />} value={priorityListItem[key]} key={key} onClick={(e) => setInputPriority(e.target.value)}>
                                                 {priorityListItem[key].toLowerCase().replace('_', ' ')}
                                             </MenuItem>
                                         ))
