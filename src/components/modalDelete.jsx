@@ -6,7 +6,7 @@ export const ModalDelete = ({ isOpen, onClose, onDelete }) => {
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent mx={{ base: 5, md: 0 }} data-cy="modal-delete">
-                <ModalHeader data-cy="modal-add-title">Apakah anda yakin menghapus activity?</ModalHeader>
+                <ModalHeader data-cy="modal-add-title">Apakah anda yakin menghapus?</ModalHeader>
                 <ModalBody>
 
                 </ModalBody>

@@ -11,16 +11,19 @@ import TodoListItem from '../components/todoListItem'
 import CustomEditableInput from '../components/customEditableInput'
 import { BiSortAlt2, BiSortDown, BiSortUp, BiSortAZ, BiSortZA, BiCheck } from 'react-icons/bi'
 import { aToZ, noTComplete, zToA } from '../utils/sort'
+import ModalDelete from '../components/modalDelete'
 
 function Activity() {
     const [dataState, setDataState] = useState(null)
     const [dataTitle, setDataTitle] = useState(null)
     const { onOpen, isOpen, onClose } = useDisclosure()
+    const { onOpen : onOpenDelete, isOpen : isOpenDelete, onClose : onCloseDelete } = useDisclosure()
     const navigate = useNavigate()
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const toast = useToast()
     const [selectedSord, setSelectedSort] = useState('terbaru')
+    const [selectedData, setSelectedData] = useState(null)
 
     const fetchData = useCallback(async (refresh, reverse) => {
         try {
@@ -105,6 +108,11 @@ function Activity() {
 
     }, [toast, fetchData])
 
+    const handleDeleteClick = (id) => {
+        setSelectedData(id)
+        onOpenDelete()
+      }
+
     const handleDelete = useCallback(async (todo_id) => {
         try {
             await axios.delete(`${BASE_URL}/todo-items/${todo_id}`)
@@ -127,9 +135,11 @@ function Activity() {
                 position: 'bottom-right'
             })
             throw new Error(error)
+        } finally {
+            onCloseDelete()
         }
 
-    }, [toast, fetchData])
+    }, [toast, fetchData, onCloseDelete])
 
     useEffect(() => {
         if (!dataState && isLoading) {
@@ -216,7 +226,7 @@ function Activity() {
                                         <List spacing={4} mt={8}>
                                             {
                                                 dataState.map((val) => (
-                                                    <TodoListItem onDeleteTodo={() => handleDelete(val.id)} onToggleTodo={() => handleToggleTodo(val.id, val.is_active)} key={val.id} data={val} />
+                                                    <TodoListItem onDeleteTodo={() => handleDeleteClick(val.id)} onToggleTodo={() => handleToggleTodo(val.id, val.is_active)} key={val.id} data={val} />
                                                 ))
                                             }
                                         </List>
@@ -225,6 +235,7 @@ function Activity() {
                             </>
                         )
                     }
+                    <ModalDelete onClose={onCloseDelete} isOpen={isOpenDelete} onDelete={() => handleDelete(selectedData)} />
                 </Container>
             </Box>
         </>
