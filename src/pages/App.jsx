@@ -16,6 +16,7 @@ function App() {
   const toast = useToast()
   const { onOpen, isOpen, onClose } = useDisclosure()
   const [alertProperties, setAlertProperties] = useState(null)
+  const [selectedData, setSelectedData] = useState(null)
 
   const fetchData = useCallback(async () => {
     try {
@@ -80,6 +81,10 @@ function App() {
 
   }, [toast, fetchData, onClose])
 
+  const handleDeleteClick = (id) => {
+    setSelectedData(id)
+  }
+
   useEffect(() => {
     if (!dataState && isLoading) {
       fetchData()
@@ -114,22 +119,24 @@ function App() {
                 {
                   dataState.map((value) => (
                     <>
-                      <ActivityCard key={value.id} onDeleteActivity={onOpen} title={value.title} created_at={new Date(value.created_at).toLocaleDateString()} id={value.id} />
-                      <ModalDelete onClose={onClose} isOpen={isOpen} onDelete={() => handleDeleteActivity(value.id)} />
+                      <ActivityCard key={value.id} onDeleteActivity={()=> handleDeleteClick(value.id)} title={value.title} created_at={new Date(value.created_at).toLocaleDateString()} id={value.id} />
                     </>
                   ))
                 }
               </SimpleGrid>
             )
+
           }
           {
             alertProperties && (
               <Alert data-cy={'modal-information'} status={alertProperties.status}>
                 <AlertIcon />
-               {alertProperties.message}
+                {alertProperties.message}
               </Alert>
             )
           }
+          <ModalDelete onClose={onClose} isOpen={isOpen} onDelete={() => handleDeleteActivity(selectedData)} />
+
         </Container>
       </Box>
     </>
