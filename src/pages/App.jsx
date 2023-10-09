@@ -1,39 +1,21 @@
-import { Box, Button, Center, Container, Flex, SimpleGrid, Spacer, Text, useColorModeValue, useToast } from '@chakra-ui/react'
+import { Alert, AlertIcon, Box, Button, Center, Container, Flex, SimpleGrid, Spacer, Text, useColorModeValue, useDisclosure, useToast } from '@chakra-ui/react'
 import Nav from '../components/navbar'
 import { PlusSquareIcon } from '@chakra-ui/icons'
 import { useCallback, useEffect, useState } from 'react'
 import activityImage from '../assets/images/hero.png'
 import ActivityCard from '../components/activityCard'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { BASE_URL } from '../utils/config'
+import ActivitySkeleton from '../components/activitySkeleton'
+import ModalDelete from '../components/modalDelete'
 // import ActivitySkeleton from '../components/activitySkeleton'
 
 function App() {
   const [dataState, setDataState] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  const navigate = useNavigate()
   const toast = useToast()
-
-  const handleAddData = useCallback(async () => {
-    try {
-      const addedData = await axios.post(`${BASE_URL}/activity-groups`, {
-        title: 'New Activity',
-        email: 'hamdan@gmail.com'
-      })
-      navigate(`activity/${addedData.data.id}`)
-
-    } catch (error) {
-      toast({
-        title: 'Gagal menambahkan data',
-        description: error.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-        position: 'bottom-right'
-      })
-    }
-  }, [navigate, toast])
+  const { onOpen, isOpen, onClose } = useDisclosure()
+  const [alertProperties, setAlertProperties] = useState(null)
 
   const fetchData = useCallback(async () => {
     try {
@@ -54,16 +36,34 @@ function App() {
     }
   }, [toast])
 
-  const handleDeleteActivity = useCallback(async (activity_id) => {
+  const handleAddData = useCallback(async () => {
     try {
-      await axios.delete(`${BASE_URL}/activity-groups/${activity_id}`)
+      await axios.post(`${BASE_URL}/activity-groups`, {
+        title: 'New Activity',
+        email: 'hamdan@gmail.com'
+      })
+      fetchData()
+
+    } catch (error) {
       toast({
-        title: 'Berhasil menghapus activity',
-        status: 'success',
+        title: 'Gagal menambahkan data',
+        description: error.message,
+        status: 'error',
         duration: 9000,
         isClosable: true,
         position: 'bottom-right'
       })
+    }
+  }, [toast, fetchData])
+
+  const handleDeleteActivity = useCallback(async (activity_id) => {
+    try {
+      await axios.delete(`${BASE_URL}/activity-groups/${activity_id}`)
+      setAlertProperties({
+        status: 'success',
+        message: 'berhasil menghapus data'
+      })
+      onClose()
       fetchData()
 
     } catch (error) {
@@ -78,7 +78,7 @@ function App() {
       throw new Error(error)
     }
 
-  }, [toast, fetchData])
+  }, [toast, fetchData, onClose])
 
   useEffect(() => {
     if (!dataState && isLoading) {
@@ -101,7 +101,9 @@ function App() {
 
           {/* Main Activity */}
           {
-            !dataState ? (
+            isLoading ? (
+              <ActivitySkeleton />
+            ) : !dataState ? (
               <Center>
                 <Box maxH={600} maxW={400} my={20} data-cy="activity-empty-state">
                   <img alt='hero-image' src={activityImage} width={'100%'} />
@@ -111,10 +113,21 @@ function App() {
               <SimpleGrid gap={5} spacing={4} my={5} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>
                 {
                   dataState.map((value) => (
-                    <ActivityCard key={value.id} onDeleteActivity={() => handleDeleteActivity(value.id)} title={value.title} created_at={new Date(value.created_at).toLocaleDateString()} id={value.id} />
+                    <>
+                      <ActivityCard key={value.id} onDeleteActivity={onOpen} title={value.title} created_at={new Date(value.created_at).toLocaleDateString()} id={value.id} />
+                      <ModalDelete onClose={onClose} isOpen={isOpen} onDelete={() => handleDeleteActivity(value.id)} />
+                    </>
                   ))
                 }
               </SimpleGrid>
+            )
+          }
+          {
+            alertProperties && (
+              <Alert data-cy={'modal-information'} status={alertProperties.status}>
+                <AlertIcon />
+               {alertProperties.message}
+              </Alert>
             )
           }
         </Container>
