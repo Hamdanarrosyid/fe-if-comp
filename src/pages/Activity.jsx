@@ -108,7 +108,7 @@ function Activity() {
                                         <Text data-cy='detail-title' fontWeight={'bold'} fontSize={'36px'} textTransform={'capitalize'}>{daysOfWeek[id]}</Text>
                                     </Flex>
                                     <Spacer />
-                                    <ButtonPrimary borderRadius={20} leftIcon={<AddIcon />} dataCy={'btn-create-schedule'} title={'Tambah Mata Kuliah'} onClick={() => onOpen()} />
+                                    <ButtonPrimary borderRadius={20} dataCy={'btn-create-schedule'} title={'+ Tambah Mata Kuliah'} onClick={() => onOpen()} />
                                 </Flex>
                                 {/* List */}
 
