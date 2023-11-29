@@ -1,10 +1,19 @@
-import { Button, Divider, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useToast } from "@chakra-ui/react"
+import { Divider, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useToast } from "@chakra-ui/react"
 import { useCallback, useContext, useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import { schedule } from "../api";
 import { AuthContext } from "../context/auth/authContext";
 import ButtonPrimary from "./buttonPrimary";
-import { daysOfWeek } from "../utils/daysOfWeek";
+import Select from 'react-select'
+
+const options = [
+    { value: 'monday', label: 'Senin' },
+    { value: 'tuesday', label: 'Selasa' },
+    { value: 'wednesday', label: 'Rabu' },
+    { value: 'thursday', label: 'Kamis' },
+    { value: 'friday', label: 'Jumat' }
+]
+
 
 const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit, initialValue, day }) => {
     console.log(day)
@@ -82,7 +91,8 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
                             {!hideSelectDay && (
                                 <>
                                     <Text textTransform={'uppercase'} fontWeight='bold' fontSize={'sm'}>Pilih Hari</Text>
-                                    <Menu>
+                                    <Select options={options} onChange={(e) => setInputDay(e.value)} />
+                                    {/* <Menu>
                                         <MenuButton fontWeight={'normal'} color={!inputDay && '#A4A4A4'} data-cy="form-day" bgColor='transparent' borderWidth='1px' textTransform='capitalize' textAlign='left' as={Button}>
                                             {
                                                 inputDay ? daysOfWeek[inputDay] : 'Pilih Hari'
@@ -97,7 +107,7 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
                                                 ))
                                             }
                                         </MenuList>
-                                    </Menu>
+                                    </Menu> */}
                                 </>
                             )}
                         </>
