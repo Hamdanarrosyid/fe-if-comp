@@ -68,7 +68,7 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
-            <ModalContent mx={{ base: 5, md: 0 }} data-cy={isEdit ? 'detail-form' : 'form-add'}>
+            <ModalContent mx={{ base: 5, md: 0 }} data-cy={day ? 'detail-form' : 'form-add'}>
                 <ModalHeader data-cy="modal-add-title">Buat Jadwal Kuliah</ModalHeader>
                 <ModalCloseButton data-cy="close-modal" />
                 <Divider />

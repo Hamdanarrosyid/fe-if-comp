@@ -1,6 +1,6 @@
 import { Box, Center, Container, Flex, IconButton, Spacer, Spinner, useDisclosure, useToast, List, useColorModeValue, Text } from '@chakra-ui/react'
 import Nav from '../components/navbar'
-import { AddIcon, ChevronLeftIcon } from '@chakra-ui/icons'
+import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import heroImage from '../assets/images/todo-empty-state.png'
 import { useNavigate, useParams } from 'react-router-dom'

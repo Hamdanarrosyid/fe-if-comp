@@ -21,7 +21,7 @@ export const ModalDelete = ({ isOpen, onClose, onDelete, isLoading }) => {
                         <Button data-cy="btn-close" colorScheme='gray' rounded='full' mr={3} onClick={onClose}>
                             Batal
                         </Button>
-                        <Button isLoading={isLoading} data-cy="data-cy=btn-submit" colorScheme='red' rounded='full' mr={3} onClick={onDelete}>
+                        <Button isLoading={isLoading} data-cy="btn-submit" colorScheme='red' rounded='full' mr={3} onClick={onDelete}>
                             Hapus
                         </Button>
                     </Flex>
