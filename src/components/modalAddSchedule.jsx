@@ -1,10 +1,11 @@
-import { Divider, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useToast } from "@chakra-ui/react"
+/* eslint-disable react/prop-types */
+import { Divider, Flex, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useToast } from "@chakra-ui/react"
 import { useCallback, useContext, useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import { schedule } from "../api";
 import { AuthContext } from "../context/auth/authContext";
 import ButtonPrimary from "./buttonPrimary";
-import Select from 'react-select'
+import Select, { components } from 'react-select'
 
 const options = [
     { value: 'monday', label: 'Senin' },
@@ -13,7 +14,6 @@ const options = [
     { value: 'thursday', label: 'Kamis' },
     { value: 'friday', label: 'Jumat' }
 ]
-
 
 const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit, initialValue, day }) => {
     console.log(day)
@@ -91,7 +91,15 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
                             {!hideSelectDay && (
                                 <>
                                     <Text textTransform={'uppercase'} fontWeight='bold' fontSize={'sm'}>Pilih Hari</Text>
-                                    <Select options={options} onChange={(e) => setInputDay(e.value)} />
+                                    <Select components={{
+                                        Control: ({ children, ...rest }) => (
+                                            <components.Control {...rest}>
+                                                <Flex data-cy={'form-day'}>
+                                                    {children}
+                                                </Flex>
+                                            </components.Control>
+                                        )
+                                    }} options={options} onChange={(e) => setInputDay(e.value)} />
                                     {/* <Menu>
                                         <MenuButton fontWeight={'normal'} color={!inputDay && '#A4A4A4'} data-cy="form-day" bgColor='transparent' borderWidth='1px' textTransform='capitalize' textAlign='left' as={Button}>
                                             {
