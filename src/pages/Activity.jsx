@@ -49,8 +49,8 @@ function Activity() {
         fetchData()
     }, [fetchData])
 
-    const handleDeleteClick = (id) => {
-        setSelectedData(id)
+    const handleDeleteClick = (val) => {
+        setSelectedData(val)
         onOpenDelete()
     }
 
@@ -123,7 +123,7 @@ function Activity() {
                                         <List spacing={4} mt={8}>
                                             {
                                                 dataState.map((val) => (
-                                                    <TodoListItem onEdit={handleChangeData} onDeleteTodo={() => handleDeleteClick(val.id)} key={val.id} data={val} />
+                                                    <TodoListItem onEdit={handleChangeData} onDeleteTodo={() => handleDeleteClick(val)} key={val.id} data={val} />
                                                 ))
                                             }
                                         </List>
@@ -132,7 +132,7 @@ function Activity() {
                             </>
                         )
                     }
-                    <ModalDelete isLoading={loadingDelete} onClose={onCloseDelete} isOpen={isOpenDelete} onDelete={() => handleDelete(selectedData)} />
+                    <ModalDelete isLoading={loadingDelete} onClose={onCloseDelete} isOpen={isOpenDelete} title={selectedData?.title} onDelete={() => handleDelete(selectedData.id)} />
                     <ModalAddSchedule day={id} hideSelectDay={true} isOpen={isOpen} onClose={onClose} onAddedData={handleChangeData} />
                 </Container>
             </Box>

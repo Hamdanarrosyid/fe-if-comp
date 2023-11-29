@@ -16,7 +16,6 @@ const options = [
 ]
 
 const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit, initialValue, day }) => {
-    console.log(day)
     const [inputTitle, setInputTitle] = useState('')
     const [inputDay, setInputDay] = useState(null)
     const [loadingInput, setLoadingInput] = useState(false)
@@ -72,7 +71,11 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
         if (day) {
             setInputDay(day)
         }
-    }, [day, initialValue, isEdit])
+        if(!isOpen) {
+            setInputTitle('')
+            setInputDay(day ?? null)
+        }
+    }, [day, initialValue, isEdit, isOpen])
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -100,22 +103,6 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
                                             </components.Control>
                                         )
                                     }} options={options} onChange={(e) => setInputDay(e.value)} />
-                                    {/* <Menu>
-                                        <MenuButton fontWeight={'normal'} color={!inputDay && '#A4A4A4'} data-cy="form-day" bgColor='transparent' borderWidth='1px' textTransform='capitalize' textAlign='left' as={Button}>
-                                            {
-                                                inputDay ? daysOfWeek[inputDay] : 'Pilih Hari'
-                                            }
-                                        </MenuButton>
-                                        <MenuList>
-                                            {
-                                                Object.keys(daysOfWeek).map(key => (
-                                                    <MenuItem textTransform='capitalize' value={key} key={key} onClick={(e) => setInputDay(e.target.value)}>
-                                                        {daysOfWeek[key]}
-                                                    </MenuItem>
-                                                ))
-                                            }
-                                        </MenuList>
-                                    </Menu> */}
                                 </>
                             )}
                         </>

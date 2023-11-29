@@ -2,7 +2,7 @@ import { Button, Flex, Img, Modal, ModalBody, ModalContent, ModalFooter, ModalHe
 import PropTypes from 'prop-types';
 import trash from '../assets/images/trash.png'
 
-export const ModalDelete = ({ isOpen, onClose, onDelete, isLoading }) => {
+export const ModalDelete = ({ isOpen, onClose, onDelete, isLoading, title }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} isCentered >
             <ModalOverlay />
@@ -14,17 +14,15 @@ export const ModalDelete = ({ isOpen, onClose, onDelete, isLoading }) => {
                     </Flex>
                 </ModalHeader>
                 <ModalBody>
-                    <Text textAlign={'center'}>Apakah anda yakin menghapus mata kuliah?</Text>
+                    <Text textAlign={'center'}>Apakah anda yakin menghapus mata kuliah {title}?</Text>
                 </ModalBody>
                 <ModalFooter>
-                    <Flex justifyContent={'space-around'} w={'full'}>
-                        <Button data-cy="btn-close" colorScheme='gray' rounded='full' mr={3} onClick={onClose}>
-                            Batal
-                        </Button>
-                        <Button isLoading={isLoading} data-cy="btn-submit" colorScheme='red' rounded='full' mr={3} onClick={onDelete}>
-                            Hapus
-                        </Button>
-                    </Flex>
+                    <Button data-cy="btn-close" colorScheme='gray' rounded='full' mr={3} onClick={onClose}>
+                        Batal
+                    </Button>
+                    <Button isLoading={isLoading} data-cy="btn-submit" colorScheme='red' rounded='full' mr={3} onClick={onDelete}>
+                        Hapus
+                    </Button>
                 </ModalFooter>
             </ModalContent>
         </Modal>
@@ -36,7 +34,8 @@ ModalDelete.propTypes = {
     onClose: PropTypes.func,
     activity_group_id: PropTypes.number,
     onDelete: PropTypes.func,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    title: PropTypes.string
 }
 
 export default ModalDelete

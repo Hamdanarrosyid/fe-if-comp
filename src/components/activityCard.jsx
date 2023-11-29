@@ -12,7 +12,7 @@ const ActivityCard = ({ id, title, count }) => {
                 <Heading as='h4' data-cy={`card-title-${daysOfWeek[title]}`} size='md'> {daysOfWeek[title]}</Heading>
             </CardHeader>
             <CardBody cursor='pointer' onClick={() => navigate(`/schedule/${id}`)}>
-                <Text data-cy={`card-desc-${daysOfWeek[title]}`} color={count > 0 ? '#D9019C' : '#BBBBBB'}>{count > 0 ? count : 'Belum ada'} mata kuliah</Text>
+                <Text data-cy={`card-desc-${daysOfWeek[title]}`} color={count > 0 ? '#D9019C' : '#BBBBBB'}>{count > 0 ? count : 'Belum Ada'} Mata Kuliah</Text>
             </CardBody>
         </Card>
     )
