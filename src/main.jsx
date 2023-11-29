@@ -7,9 +7,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Activity from './pages/Activity.jsx';
-import Checkin from './pages/Checkin.jsx';
 import { Protected, UnProtected } from './components/auth.jsx';
 import AuthProvider from './context/auth/authProvider.jsx';
+import Checkin from './pages/Checkin.jsx';
 
 const router = createBrowserRouter([
   {
