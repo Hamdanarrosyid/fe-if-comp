@@ -1,4 +1,4 @@
-import { Button, Divider, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useToast } from "@chakra-ui/react"
+import { Divider, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Text, useToast } from "@chakra-ui/react"
 import { useCallback, useContext, useEffect, useState } from "react"
 import PropTypes from 'prop-types';
 import { schedule } from "../api";
@@ -7,7 +7,6 @@ import ButtonPrimary from "./buttonPrimary";
 import { daysOfWeek } from "../utils/daysOfWeek";
 
 const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit, initialValue, day }) => {
-    console.log(day)
     const [inputTitle, setInputTitle] = useState('')
     const [inputDay, setInputDay] = useState(null)
     const [loadingInput, setLoadingInput] = useState(false)
@@ -82,22 +81,13 @@ const ModalAddSchedule = ({ isOpen, onClose, onAddedData, hideSelectDay, isEdit,
                             {!hideSelectDay && (
                                 <>
                                     <Text textTransform={'uppercase'} fontWeight='bold' fontSize={'sm'}>Pilih Hari</Text>
-                                    <Menu>
-                                        <MenuButton fontWeight={'normal'} color={!inputDay && '#A4A4A4'} data-cy="form-day" bgColor='transparent' borderWidth='1px' textTransform='capitalize' textAlign='left' as={Button}>
-                                            {
-                                                inputDay ? daysOfWeek[inputDay] : 'Pilih Hari'
-                                            }
-                                        </MenuButton>
-                                        <MenuList>
-                                            {
-                                                Object.keys(daysOfWeek).map(key => (
-                                                    <MenuItem textTransform='capitalize' value={key} key={key} onClick={(e) => setInputDay(e.target.value)}>
-                                                        {daysOfWeek[key]}
-                                                    </MenuItem>
-                                                ))
-                                            }
-                                        </MenuList>
-                                    </Menu>
+                                    <Select data-cy="form-day" placeholder='Pilih Hari' onChange={(e) => setInputDay(e.target.value)}>
+                                        {
+                                            Object.keys(daysOfWeek).map(key => (
+                                                <option key={key} value={key}>{daysOfWeek[key]}</option>
+                                            ))
+                                        }
+                                    </Select>
                                 </>
                             )}
                         </>

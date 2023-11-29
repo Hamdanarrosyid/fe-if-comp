@@ -38,7 +38,7 @@ export default function Nav() {
                         <Stack direction={'row'} spacing={7}>
                             {
                                 email &&
-                                <ButtonPrimary data-cy='btn-logout' title={`Check out | ${email}`} onClick={handleLogout}/>
+                                <ButtonPrimary dataCy='btn-logout' title={`Check out | ${email}`} onClick={handleLogout}/>
 
                             }
                             <Button onClick={toggleColorMode}>

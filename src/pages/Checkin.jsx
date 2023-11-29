@@ -11,6 +11,11 @@ const Checkin = () => {
     const [inputEmail, setInputEmail] = useState('')
     const [inputError, setInputError] = useState(false)
     const handleChange = (e) => {
+        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        const result = pattern.test(e.target.value)
+        console.log(result)
+        setInputError(!result)
+
         setInputEmail(e.target.value)
     }
 
@@ -22,9 +27,11 @@ const Checkin = () => {
         }
     }
 
+    // eslint-disable-next-line no-unused-vars
     const handleOnBlur = (e) => {
         const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         const result = pattern.test(e.target.value)
+        console.log(result)
         setInputError(!result)
     }
 
@@ -56,7 +63,7 @@ const Checkin = () => {
                                 data-cy='input-email'
                                 value={inputEmail}
                                 onChange={handleChange}
-                                onBlur={handleOnBlur}
+                                // onBlur={handleOnBlur}
                                 placeholder="Masukan email anda"
                                 _placeholder={{ color: 'gray.500' }}
                                 type="email"
@@ -68,7 +75,7 @@ const Checkin = () => {
 
                         </FormControl>
                         <Stack spacing={6}>
-                            <ButtonPrimary title={'Mulai Sesi'} type='submit' dataCy={'btn-login'} />
+                            <ButtonPrimary isDisabled={inputEmail == '' || inputError} title={'Mulai Sesi'} type='submit' dataCy={'btn-login'} />
                         </Stack>
                     </Stack>
                 </Flex>
