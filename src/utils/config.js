@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://todo.api.devcode.gethired.id'
+export const BASE_URL = 'https://getjadwal.api.devcode.gethired.id'

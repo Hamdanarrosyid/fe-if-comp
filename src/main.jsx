@@ -7,22 +7,31 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Activity from './pages/Activity.jsx';
+import Checkin from './pages/Checkin.jsx';
+import { Protected, UnProtected } from './components/auth.jsx';
+import AuthProvider from './context/auth/authProvider.jsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <Protected><App /></Protected>
   },
   {
-    path: "/activity/:id",
-    element: <Activity/>
+    path: "/checkin",
+    element: <UnProtected><Checkin /></UnProtected>
+  },
+  {
+    path: "/schedule/:id",
+    element: <Activity />
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </ChakraProvider>
   </React.StrictMode>,
 )
